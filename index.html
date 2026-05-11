@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Drew Dickson — Aviation Economics Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CUSTOMIZATION CONFIG
+   Edit the CSS variables below to change colors site-wide.
+   To edit text content, scroll down to the <body> section —
+   everything is clearly commented with <!-- EDIT --> markers.
+   ============================================================ */
+
+:root {
+  /* Core palette — change these to retheme the entire site */
+  --ink: #0a0a0c;              /* page background */
+  --ink-2: #131318;            /* card background */
+  --ink-3: #1c1c23;            /* elevated background */
+  --paper: #f5f1ea;            /* primary text — warm off-white */
+  --paper-dim: #a8a39a;        /* secondary text */
+  --paper-faint: #7a766d;      /* tertiary text, captions */
+  --rule: #2a2a32;             /* dividers, borders */
+  --accent: #d94f3a;           /* signature red — like FT pink but redder */
+  --accent-dim: #8b3324;
+  --highlight: #e8c547;        /* mustard for data callouts */
+
+  /* Typography */
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing rhythm */
+  --col-max: 1280px;
+  --col-text: 680px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Subtle film grain overlay for texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============ NAV ============ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 20px 40px;
+  background: rgba(10, 10, 12, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-logo img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.nav-logo:hover img {
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+  color: var(--paper-dim);
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a:hover { color: var(--paper); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 100vh;
+  padding: 140px 40px 80px;
+  max-width: var(--col-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+}
+
+.hero-meta {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-meta::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-bottom: 32px;
+  font-variation-settings: "opsz" 144;
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 300;
+  color: var(--paper-dim);
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 30px;
+  border: 1px solid var(--paper);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+.hero-cta:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+.hero-cta-secondary {
+  margin-left: 16px;
+  border: 1px solid var(--rule);
+  color: var(--paper-dim);
+}
+.hero-cta-secondary:hover {
+  border-color: var(--paper-dim);
+  color: var(--paper);
+  background: transparent;
+}
+
+/* Hero right column — stat panel */
+.hero-stats {
+  border-left: 1px solid var(--rule);
+  padding-left: 60px;
+  position: relative;
+}
+.hero-stats-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  margin-bottom: 28px;
+}
+.hero-stat {
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-stat:last-child { border-bottom: none; }
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.hero-stat-num .unit {
+  font-size: 24px;
+  color: var(--paper-dim);
+  margin-left: 4px;
+}
+.hero-stat-desc {
+  font-size: 14px;
+  color: var(--paper-dim);
+  line-height: 1.55;
+}
+
+/* ============ SECTION GENERIC ============ */
+section { padding: 100px 40px; max-width: var(--col-max); margin: 0 auto; }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-tag {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-variation-settings: "opsz" 144;
+}
+.section-title em { font-style: italic; font-weight: 300; }
+
+/* ============ ABOUT ============ */
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+.about-bio p {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.55;
+  font-weight: 300;
+  margin-bottom: 24px;
+  color: var(--paper);
+}
+.about-bio p:first-child::first-letter {
+  font-size: 64px;
+  float: left;
+  line-height: 0.85;
+  padding: 8px 12px 0 0;
+  color: var(--accent);
+  font-weight: 500;
+}
+.about-bio p strong {
+  font-weight: 500;
+  font-style: italic;
+  color: var(--highlight);
+}
+
+.about-facts {
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.fact-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+  gap: 20px;
+}
+.fact-key {
+  color: var(--paper-dim);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+.fact-val { color: var(--paper); line-height: 1.55; font-size: 14px; }
+.fact-val a { color: var(--accent); border-bottom: 1px solid var(--accent-dim); }
+.fact-val a:hover { color: var(--highlight); border-color: var(--highlight); }
+
+/* ============ RESEARCH (the centerpiece) ============ */
+.papers { display: flex; flex-direction: column; gap: 0; }
+
+.paper {
+  display: grid;
+  grid-template-columns: 200px 1fr 300px;
+  gap: 60px;
+  padding: 60px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+  transition: background 0.3s;
+}
+.paper:first-child { border-top: 1px solid var(--rule); }
+.paper:hover { background: linear-gradient(90deg, transparent, rgba(217, 79, 58, 0.02) 50%, transparent); }
+
+.paper-num {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--paper-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.paper-num strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.paper-body h3 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 1.1;
+  font-weight: 500;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.paper-body h3 em { font-style: italic; font-weight: 300; }
+.paper-subtitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--paper-dim);
+  margin-bottom: 24px;
+  line-height: 1.3;
+}
+.paper-abstract {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--paper-dim);
+  margin-bottom: 28px;
+  max-width: 560px;
+}
+.paper-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.paper-tag {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  color: var(--paper-dim);
+  border-radius: 2px;
+}
+
+.paper-actions { display: flex; gap: 16px; }
+.paper-link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--paper);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 4px;
+  transition: all 0.2s;
+}
+.paper-link:hover { color: var(--accent); }
+.paper-link.muted { border-color: var(--rule); color: var(--paper-dim); }
+.paper-link.muted:hover { border-color: var(--paper-dim); color: var(--paper); }
+
+/* Paper stats — the highlight cards on the right */
+.paper-stats {
+  background: var(--ink-2);
+  border: 1px solid var(--rule);
+  padding: 28px;
+  border-radius: 4px;
+  position: relative;
+}
+.paper-stats::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+}
+.paper-stats-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  margin-bottom: 22px;
+}
+.pstat {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.pstat:last-child { border-bottom: none; padding-bottom: 0; }
+.pstat:first-of-type { padding-top: 0; }
+.pstat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--highlight);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.pstat-num .unit {
+  font-size: 14px;
+  color: var(--paper-dim);
+  margin-left: 2px;
+}
+.pstat-desc {
+  font-size: 13px;
+  color: var(--paper-dim);
+  line-height: 1.5;
+}
+
+/* ============ SKILLS GRID ============ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.skill {
+  background: var(--ink-2);
+  padding: 32px 24px;
+  transition: background 0.2s;
+}
+.skill:hover { background: var(--ink-3); }
+.skill-icon {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+.skill h4 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.skill p {
+  font-size: 13px;
+  color: var(--paper-dim);
+  line-height: 1.5;
+}
+
+/* ============ CONTACT ============ */
+.contact {
+  text-align: left;
+  padding: 120px 40px 60px;
+  max-width: var(--col-max);
+  margin: 0 auto;
+}
+.contact-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 120px);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 48px;
+  font-variation-settings: "opsz" 144;
+}
+.contact-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding-top: 48px;
+  border-top: 1px solid var(--rule);
+}
+.contact-item-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  margin-bottom: 14px;
+}
+.contact-item-val {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+.contact-item a:hover .contact-item-val { color: var(--accent); }
+
+/* ============ FOOTER ============ */
+footer {
+  padding: 40px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--paper-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  max-width: var(--col-max);
+  margin: 0 auto;
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.25s; }
+.delay-3 { animation-delay: 0.4s; }
+.delay-4 { animation-delay: 0.55s; }
+
+/* Scroll-triggered reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  nav { padding: 16px 20px; }
+  .nav-links { gap: 18px; font-size: 11px; }
+  .hero { grid-template-columns: 1fr; padding: 110px 20px 60px; gap: 60px; }
+  .hero-stats { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 40px; }
+  section { padding: 60px 20px; }
+  .about { grid-template-columns: 1fr; gap: 40px; }
+  .paper { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+  .paper-num strong { font-size: 36px; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact { padding: 80px 20px 40px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 28px; }
+  footer { flex-direction: column; gap: 8px; padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV — EDIT: change the name and link labels here
+     ============================================================ -->
+<nav>
+  <a href="#top" class="nav-logo">
+    <img src="dickson-aviation.jpg" alt="Dickson Aviation logo" />
+    <span>Drew Dickson</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#research">Research</a>
+    <a href="#skills">Methods</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO — EDIT: headline, subhead, and the three hero stats
+     ============================================================ -->
+<section class="hero" id="top">
+  <div>
+    <div class="hero-meta fade-in delay-1">Analytical Economics · Aviation Research · UNH 2026</div>
+    <h1 class="fade-in delay-2">Reading the<br><em>numbers</em> behind<br>the schedule.</h1>
+    <p class="hero-sub fade-in delay-3">
+      Quantitative research on U.S. domestic aviation — market structure, operational performance, and the gaps between what airlines report and what passengers actually experience.
+    </p>
+    <div class="fade-in delay-4">
+      <a href="#research" class="hero-cta">Read the Research →</a>
+      <a href="#contact" class="hero-cta hero-cta-secondary">Get in Touch</a>
+    </div>
+  </div>
+
+  <aside class="hero-stats fade-in delay-3">
+    <div class="hero-stats-label">By the numbers</div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">7.7<span class="unit">M</span></div>
+      <div class="hero-stat-desc">Flight records analyzed across two original research papers</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">156</div>
+      <div class="hero-stat-desc">U.S. commercial airports examined for market concentration</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2</div>
+      <div class="hero-stat-desc">Full-length research papers with original methodology &amp; econometric modeling</div>
+    </div>
+  </aside>
+</section>
+
+<!-- ============================================================
+     ABOUT — EDIT: bio paragraphs and the fact table on the right
+     ============================================================ -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-tag">01 — Profile</span>
+    <h2 class="section-title">A researcher at <em>heart</em>.</h2>
+  </div>
+
+  <div class="about">
+    <div class="about-facts">
+      <div class="fact-row">
+        <div class="fact-key">Education</div>
+        <div class="fact-val">B.S. Analytical Economics<br>Minor, Sport Management<br>University of New Hampshire · 2026</div>
+      </div>
+      <div class="fact-row">
+        <div class="fact-key">Focus</div>
+        <div class="fact-val">Aviation economics, market structure, operations research, applied econometrics</div>
+      </div>
+      <div class="fact-row">
+        <div class="fact-key">Stack</div>
+        <div class="fact-val">R (fixest, tidyverse) · SQL · Excel modeling · Photoshop · Premiere</div>
+      </div>
+      <div class="fact-row">
+        <div class="fact-key">Data</div>
+        <div class="fact-val">BTS DB1B · BTS On-Time Performance · OpenFlights · U.S. Census</div>
+      </div>
+      <div class="fact-row">
+        <div class="fact-key">Location</div>
+        <div class="fact-val">Durham, NH · open to relocation</div>
+      </div>
+      <div class="fact-row">
+        <div class="fact-key">Status</div>
+        <div class="fact-val"><a href="#contact">Actively seeking full-time roles →</a></div>
+      </div>
+    </div>
+
+    <div class="about-bio">
+      <p>
+        I write research that takes the official numbers seriously enough to question them. My work analyzes the U.S. domestic aviation market, as an economist looking for the <strong>elusive trends and quirks hiding inside aggregate statistics</strong>.
+      </p>
+      <p>
+        Two papers, written independently during my final year at UNH, examine the same industry from opposite angles: how schedule padding inflates the DOT's on-time metric, and how hub consolidation has produced a market where <strong>60% of routes operate as monopolies</strong>. Both rely on multi-million-row BTS datasets, fixed effects regression, and the kind of route-level analysis that aggregate reports leave out.
+      </p>
+      <p>
+        I'm looking for analyst roles where the work is genuinely quantitative — aviation, transportation, market research, operations, or anywhere a dataset and a sharp question can produce something useful. The portfolio below is the case.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RESEARCH — EDIT: add or modify <article class="paper"> blocks
+     Each paper has: number, title, subtitle, abstract, tags,
+     action links, and a stats sidebar with three key findings.
+     ============================================================ -->
+<section id="research">
+  <div class="section-header">
+    <span class="section-tag">02 — Research</span>
+    <h2 class="section-title">Published <em>work</em>.</h2>
+  </div>
+
+  <div class="papers">
+
+    <!-- =========== PAPER 1 =========== -->
+    <article class="paper reveal">
+      <div class="paper-num">
+        <strong>01</strong>
+        May 2026
+      </div>
+
+      <div class="paper-body">
+        <h3>The Block Time <em>Mirage</em></h3>
+        <p class="paper-subtitle">Disentangling Schedule Padding from Operational Reality</p>
+        <p class="paper-abstract">
+          An analysis of 7.7 million 2025 flight records testing whether the DOT's 15-minute on-time threshold actually measures what passengers think it measures. Findings: 71% of U.S. flights are scheduled longer than they fly, padding varies systematically by carrier in ways that inflate published rankings, and a fixed-effects model controlling for airport, time, and seasonality reveals that carrier identity explains only 3.1% of delay variance — with structural factors dominating everything else.
+        </p>
+        <div class="paper-tags">
+          <span class="paper-tag">Fixed Effects</span>
+          <span class="paper-tag">R / fixest</span>
+          <span class="paper-tag">BTS On-Time</span>
+          <span class="paper-tag">7.7M obs.</span>
+          <span class="paper-tag">Original</span>
+        </div>
+        <div class="paper-actions">
+          <a href="BlockTimeMirage.pdf" class="paper-link" target="_blank">Read PDF →</a>
+          
+        </div>
+      </div>
+
+      <aside class="paper-stats">
+        <div class="paper-stats-label">Key Findings</div>
+        <div class="pstat">
+          <div class="pstat-num">71<span class="unit">%</span></div>
+          <div class="pstat-desc">of flights scheduled longer than they actually fly</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">17.6<span class="unit">min</span></div>
+          <div class="pstat-desc">gap between best and worst regional operators under the same brand</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">3.1<span class="unit">%</span></div>
+          <div class="pstat-desc">of delay variance explained by carrier identity — structure dominates</div>
+        </div>
+      </aside>
+    </article>
+
+    <!-- =========== PAPER 2 =========== -->
+    <article class="paper reveal">
+      <div class="paper-num">
+        <strong>02</strong>
+        April 2026
+      </div>
+
+      <div class="paper-body">
+        <h3>The Cost of <em>Consolidation</em></h3>
+        <p class="paper-subtitle">Hub Monopolies, Fare Convergence, and the Collapse of Competition</p>
+        <p class="paper-abstract">
+          Using BTS DB1B and On-Time Performance data across 156 commercial airports, this paper argues Spirit Airlines' collapse was the predictable result of a market that is structurally far less competitive than deregulation promised. Findings: 60.5% of served domestic routes operate under monopoly conditions, three legacy carriers have established hub-based pricing territories, and 41 U.S. cities face complete carrier concentration on routes to both dominant Southeast hubs — with budget price floors routinely exceeding $200 on short regional flights.
+        </p>
+        <div class="paper-tags">
+          <span class="paper-tag">Market Structure</span>
+          <span class="paper-tag">HHI Analysis</span>
+          <span class="paper-tag">BTS DB1B</span>
+          <span class="paper-tag">156 Airports</span>
+          <span class="paper-tag">Original</span>
+        </div>
+        <div class="paper-actions">
+          <a href="The_Cost_of_Consolidation.pdf" class="paper-link" target="_blank">Read PDF →</a>
+          
+        </div>
+      </div>
+
+      <aside class="paper-stats">
+        <div class="paper-stats-label">Key Findings</div>
+        <div class="pstat">
+          <div class="pstat-num">60.5<span class="unit">%</span></div>
+          <div class="pstat-desc">of served U.S. domestic routes operate as carrier monopolies</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">41</div>
+          <div class="pstat-desc">cities with 100% carrier concentration to both major Southeast hubs</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">+54<span class="unit">%</span></div>
+          <div class="pstat-desc">cost-per-mile premium on monopoly routes under 300 miles</div>
+        </div>
+      </aside>
+    </article>
+
+    <!-- =========== ADD MORE PAPERS HERE =========== -->
+    <!-- To add a new paper, duplicate one of the <article class="paper"> blocks above
+         and update the number, title, subtitle, abstract, tags, and stats sidebar. -->
+
+  </div>
+</section>
+
+<!-- ============================================================
+     SKILLS / METHODS — EDIT: change the four cards as needed
+     ============================================================ -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-tag">03 — Methods</span>
+    <h2 class="section-title">How the <em>work</em> gets made.</h2>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill reveal">
+      <div class="skill-icon">∑</div>
+      <h4>Econometrics</h4>
+      <p>Fixed effects regression with clustered standard errors, market concentration analysis (HHI), variance decomposition. Built in R using the fixest package.</p>
+    </div>
+    <div class="skill reveal">
+      <div class="skill-icon">◐</div>
+      <h4>Large Data</h4>
+      <p>Routine work on multi-million-row datasets — BTS On-Time Performance, DB1B Origin &amp; Destination survey, full-year flight records cleaned and joined at the route level.</p>
+    </div>
+    <div class="skill reveal">
+      <div class="skill-icon">◑</div>
+      <h4>Writing</h4>
+      <p>Independent research papers from question to conclusion. Methodology that holds up to scrutiny, prose that doesn't bury the finding under jargon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT — EDIT: email, links, anything else you want surfaced
+     ============================================================ -->
+<section class="contact" id="contact">
+  <div class="section-header">
+    <span class="section-tag">04 — Contact</span>
+    <span class="section-tag" style="color: var(--paper-faint);">Open to opportunities</span>
+  </div>
+
+  <h2 class="contact-title">Let's talk about<br>what comes <em>next</em>.</h2>
+
+  <div class="contact-grid">
+    <a href="mailto:andrewmd1671@gmail.com" class="contact-item">
+      <div class="contact-item-label">Email</div>
+      <div class="contact-item-val">andrewmd1671@gmail.com</div>
+    </a>
+    <a href="https://www.linkedin.com/in/drew-dickson-83606626b/" class="contact-item" target="_blank" rel="noopener">
+      <div class="contact-item-label">LinkedIn</div>
+      <div class="contact-item-val">Click here!</div>
+    </a>
+    <a href="DrewDickson_Resume.pdf" class="contact-item" target="_blank" rel="noopener" download>
+      <div class="contact-item-label">Résumé</div>
+      <div class="contact-item-val">Download PDF →</div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 Drew Dickson</div>
+  <div>Last updated May 2026</div>
+</footer>
+
+<script>
+// Scroll-triggered reveal animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Smooth scroll already handled by CSS, but offset for fixed nav
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (!target) return;
+    e.preventDefault();
+    const offset = 80;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>
