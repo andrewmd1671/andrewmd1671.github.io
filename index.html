@@ -349,6 +349,32 @@ section { padding: 100px 40px; max-width: var(--col-max); margin: 0 auto; }
 .paper:first-child { border-top: 1px solid var(--rule); }
 .paper:hover { background: linear-gradient(90deg, transparent, rgba(217, 79, 58, 0.02) 50%, transparent); }
 
+/* Featured paper treatment */
+.paper.featured {
+  position: relative;
+  background: linear-gradient(135deg, rgba(217, 79, 58, 0.05), rgba(232, 197, 71, 0.03) 60%, transparent);
+  border-left: 3px solid var(--accent);
+  padding-left: 40px;
+  padding-right: 24px;
+  margin: 0 -24px;
+}
+.paper.featured:hover {
+  background: linear-gradient(135deg, rgba(217, 79, 58, 0.07), rgba(232, 197, 71, 0.04) 60%, transparent);
+}
+.featured-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--highlight);
+  padding: 5px 12px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
 .paper-num {
   font-family: var(--font-body);
   font-weight: 500;
@@ -598,6 +624,7 @@ footer {
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 900px) {
+  .paper.featured { margin: 0; padding-left: 20px; padding-right: 0; }
   nav { padding: 16px 20px; }
   .nav-links { gap: 18px; font-size: 11px; }
   .hero { grid-template-columns: 1fr; padding: 110px 20px 60px; gap: 60px; }
@@ -658,7 +685,7 @@ footer {
       <div class="hero-stat-desc">U.S. commercial airports examined for market concentration and fare distribution</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-num">5</div>
       <div class="hero-stat-desc">Full-length research papers with original methodology &amp; econometric modeling</div>
     </div>
   </aside>
@@ -728,10 +755,54 @@ footer {
 
   <div class="papers">
 
-    <!-- =========== PAPER 1 =========== -->
-    <article class="paper reveal">
+    <!-- =========== PAPER 1 — FEATURED =========== -->
+    <article class="paper reveal featured">
       <div class="paper-num">
         <strong>01</strong>
+        June 2026
+      </div>
+
+      <div class="paper-body">
+        <span class="featured-badge">Featured Research</span>
+        <h3>Divergent Transpacific <em>Corridors</em></h3>
+        <p class="paper-subtitle">Post-COVID U.S. Capacity Redistribution and the Commercial Case for Fukuoka Expansion</p>
+        <p class="paper-abstract">
+          Five U.S.–Asia corridors entered COVID looking alike and emerged as five different markets: China collapsed to 29% of 2019 volume under bilateral caps, Japan rebounded supply-constrained, Korea normalized, Taiwan overshot into overcapacity, and Hong Kong split between leisure and a hollowed-out business base. Built on T-100 panel data, Form 41 cost schedules, and Q1 2026 carrier earnings, the paper quantifies a durable 2.28¢ non-fuel CASM gap between American and United's transpacific fleets — then applies the calibrated unit-cost model to a live network planning question: is nonstop U.S. service to Fukuoka commercially viable? The simulation finds Delta's west-coast candidates break even at +8% above Pacific-average yield and United's at +11% — both inside the premium range that SFO-KIX's cost structure implies a mature secondary Japan gateway can earn.
+        </p>
+        <div class="paper-tags">
+          <span class="paper-tag">Route Economics</span>
+          <span class="paper-tag">Form 41 / CASM</span>
+          <span class="paper-tag">Network Planning</span>
+          <span class="paper-tag">Financial Simulation</span>
+          <span class="paper-tag">T-100 International</span>
+          <span class="paper-tag">Original</span>
+        </div>
+        <div class="paper-actions">
+          <a href="DivergentTranspacificCorridors.pdf" class="paper-link" target="_blank">Read PDF →</a>
+        </div>
+      </div>
+
+      <aside class="paper-stats">
+        <div class="paper-stats-label">Key Findings</div>
+        <div class="pstat">
+          <div class="pstat-num">29% – 126%<span class="unit"></span></div>
+          <div class="pstat-desc">passenger recovery range across five U.S.–Asia corridors — one market, five divergent outcomes</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">2.28<span class="unit">¢</span></div>
+          <div class="pstat-desc">American's non-fuel CASM gap vs. United's 787-9 — roughly $29–35K in added cost per transpacific flight</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">+8<span class="unit">%</span></div>
+          <div class="pstat-desc">yield premium at which Delta's west-coast Fukuoka routes break even — within reach of a mature secondary gateway</div>
+        </div>
+      </aside>
+    </article>
+
+    <!-- =========== PAPER 2 =========== -->
+    <article class="paper reveal">
+      <div class="paper-num">
+        <strong>02</strong>
         May 2026
       </div>
 
@@ -770,10 +841,10 @@ footer {
       </aside>
     </article>
 
-    <!-- =========== PAPER 2 =========== -->
+    <!-- =========== PAPER 3 =========== -->
     <article class="paper reveal">
       <div class="paper-num">
-        <strong>02</strong>
+        <strong>03</strong>
         May 2026
       </div>
 
@@ -812,10 +883,10 @@ footer {
       </aside>
     </article>
 
-    <!-- =========== PAPER 3 =========== -->
+    <!-- =========== PAPER 4 =========== -->
     <article class="paper reveal">
       <div class="paper-num">
-        <strong>03</strong>
+        <strong>04</strong>
         May 2026
       </div>
 
@@ -855,10 +926,10 @@ footer {
       </aside>
     </article>
 
-    <!-- =========== PAPER 4 =========== -->
+    <!-- =========== PAPER 5 =========== -->
     <article class="paper reveal">
       <div class="paper-num">
-        <strong>04</strong>
+        <strong>05</strong>
         April 2026
       </div>
 
@@ -962,7 +1033,7 @@ footer {
 
 <footer>
   <div>© 2026 Drew Dickson</div>
-  <div>Last updated May 2026</div>
+  <div>Last updated June 2026</div>
 </footer>
 
 <script>
